@@ -15,8 +15,8 @@ struct Image {
 };
 int main()
 {
-	//HWND hConsole = GetConsoleWindow();
-	//ShowWindow(hConsole, SW_HIDE);
+	HWND hConsole = GetConsoleWindow();
+	ShowWindow(hConsole, SW_HIDE);
 	std::cout << "Hello World!" << std::endl;
 	std::string pathFile = Settings::getTodayFileName();
 	if (!Settings::existFile(pathFile)) {
@@ -64,7 +64,7 @@ int main()
 	
 
 	if (error) {
-		//ShowWindow(hConsole, SW_SHOW);
+		ShowWindow(hConsole, SW_SHOW);
 		MessageBox(NULL, L"Watch consol", L"Error with file settings.", 0);
 		exit(1);
 	}
