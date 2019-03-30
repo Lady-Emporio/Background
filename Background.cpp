@@ -15,8 +15,8 @@ struct Image {
 };
 int main()
 {
-	HWND hConsole = GetConsoleWindow();
-	ShowWindow(hConsole, SW_HIDE);
+	//HWND hConsole = GetConsoleWindow();
+	//ShowWindow(hConsole, SW_HIDE);
 	std::cout << "Hello World!" << std::endl;
 	std::string pathFile = Settings::getTodayFileName();
 	if (!Settings::existFile(pathFile)) {
@@ -30,6 +30,7 @@ int main()
 		);
 		if (choose == IDYES) {
 			Settings::createDefaultFile(pathFile);
+			exit(1);
 		}
 		else {
 			exit(1);
@@ -63,10 +64,11 @@ int main()
 	
 
 	if (error) {
-		ShowWindow(hConsole, SW_SHOW);
+		//ShowWindow(hConsole, SW_SHOW);
 		MessageBox(NULL, L"Watch consol", L"Error with file settings.", 0);
 		exit(1);
 	}
+	int lastIndex = 0;
 	for (int i = 0; i != TodayImage.size(); ++i) {
 		std::map<std::string, std::string > nextimage = TodayImage.at(i);
 		std::string pathtoimage = nextimage.at(Settings::Name_Path_ToBMPInArray);
@@ -77,17 +79,18 @@ int main()
 		std::istringstream ss(timetoimage.c_str());
 		ss >> std::get_time(&tm_to_start, "%H:%M:%S");
 
-		std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+		std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());		
 		struct tm todayIn;
 		localtime_s(&todayIn, &tt);//В эту структуру надо запихнуть текущий день, год и прочее.
+
 		todayIn.tm_hour = tm_to_start.tm_hour;
 		todayIn.tm_min = tm_to_start.tm_min;
 		todayIn.tm_sec = tm_to_start.tm_sec;
 
 		std::this_thread::sleep_until(std::chrono::system_clock::from_time_t(mktime(&todayIn)));
+		
 		std::wstring w_text(pathtoimage.begin(), pathtoimage.end());
 		LPCWSTR  LPCWSTR_text = w_text.c_str();
-
 		SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)LPCWSTR_text, SPIF_SENDWININICHANGE);
 	}
 }

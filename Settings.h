@@ -21,4 +21,5 @@ void MessageBoxAndExit(std::string text,std::string header);
 
 bool existFile(std::string path);
 void createDefaultFile(std::string fileName);
+
 }

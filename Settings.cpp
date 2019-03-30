@@ -143,3 +143,4 @@ void Settings::createDefaultFile(std::string fileName){
 	outfile.close();
 }
 
+
