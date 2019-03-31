@@ -20,10 +20,14 @@ std::string Settings::getTodayFileName() {
 		return Settings::Friday + ".json";
 	case 6:
 		return Settings::Saturday + ".json";
-	case 7:
+	case 0://Sunday=0 Monday=1
 		return Settings::Sunday + ".json";
 	}
-	Settings::MessageBoxAndExit("wDayOfWeek not in 1-7", Settings::WonderError);
+
+	std::string textMessage = "wDayOfWeek not in 1-7: ";
+	textMessage += std::to_string(todayDayNomber);
+
+	Settings::MessageBoxAndExit(textMessage, Settings::WonderError);
 	exit(1);
 }
 
